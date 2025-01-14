@@ -73,7 +73,7 @@ def get_record(worksheet_name:str, rec_id:str)->dict:
         #second method --- time required 4 sec
         # return worksheet.get(f"{rec.row}:{rec.row}")[0]
     
-    return "Invalid ID..!"
+    raise Exception("Invalid ID..!")
 
 
 def update_record(worksheet_name:str, rec_id:str, rec_data:list[str])->str:
@@ -86,17 +86,18 @@ def update_record(worksheet_name:str, rec_id:str, rec_data:list[str])->str:
         }])
         return "Record updated successfully..!"
         
-    return 'Invalid ID..!'
+    raise Exception("Invalid ID..!")
             
 
 def delete_record(worksheet_name:str, rec_id:str)->str:
     worksheet = get_worksheet(worksheet_name)
    
     rec = worksheet.find(rec_id)
+    print(rec)
     if rec:
         worksheet.delete_rows(rec.row)
         return "Record deleted successfully..!"
-    return "Invalid ID..!"
+    raise Exception("Invalid ID..!")
         
         
 # -------------------------------------------check below

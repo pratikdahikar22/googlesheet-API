@@ -62,7 +62,22 @@ Resources:
           Properties:
             Path: /delete-record
             Method: delete
-                        
+        AddToDo:
+          Type: Api
+          Properties:
+            Path: /to-do
+            Method: post
+        ListToDo:
+          Type: Api
+          Properties:
+            Path: /to-do
+            Method: get
+        DeleteToDo:
+          Type: Api
+          Properties:
+            Path: /to-do
+            Method: delete
+
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:

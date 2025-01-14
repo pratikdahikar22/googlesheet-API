@@ -71,13 +71,13 @@ def lambda_handler(event, context):
             sort_order = query_params.get('sort_order', False)
             
             if worksheet_name:
-                resp = list_records(worksheet_name)
+                resp    = list_records(worksheet_name)
+                message = "list of worksheet records..!"
                 
                 # filter monthly records
                 if month in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10","11", "12"]:
                     resp = list(filter(lambda rec: f"-{month}-" in rec['Date'], resp))
                 
-                message = "list of worksheet records..!"
                 # sort by and sorting order
                 if sort_by and resp and (sort_by in resp[0].keys()):
                     if sort_by.title() == 'Date':
@@ -97,7 +97,6 @@ def lambda_handler(event, context):
             else:
                 raise Exception("Enter valid worksheet name and rec_id..!")
         
-
         # Method : PATCH
         elif path == "/update-record" and method == "PATCH":
             rec_id         = body.get("rec_id", "")
@@ -130,7 +129,23 @@ def lambda_handler(event, context):
                 message = delete_record(worksheet_name, rec_id)
             else:
                 raise Exception("Enter valid date and rec_id..!")
-       
+
+        elif path == "/to-do" and (method in ["POST", "GET", "DELETE"]):
+            worksheet_name = "To-Do"
+            records = body.get("records", [])
+            rec_id  = query_params.get("rec_id","")
+            
+            if method == "POST":
+                add_records(worksheet_name, records)
+                message = "todo added..!"
+
+            elif method == "GET":
+                resp = list_records(worksheet_name)
+                message = "list of to-do..!"
+
+            elif method == "DELETE":
+                delete_record(worksheet_name, rec_id)            
+                message = "todo deleted successfully..!"
         else:
             raise Exception("Invalid path......!")
 
